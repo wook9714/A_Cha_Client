@@ -12,7 +12,7 @@ import com.example.a_cha_client.databinding.ActivityMainBinding
 import com.example.a_cha_client.databinding.ItemRecyclerViewBinding
 
 class MenuRecyclerAdapter : RecyclerView.Adapter<MenuHolder>() {
-    var listData = mutableListOf<MenuInformation>()
+    var listData = mutableListOf<MenuItemClass>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuHolder {
         val binding = ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -47,12 +47,12 @@ class MenuHolder(val binding: ItemRecyclerViewBinding) : RecyclerView.ViewHolder
 
     init {
         binding.root.setOnClickListener {
-        }
 
+        }
     }
 
 
-    fun setItem(menuInformation: MenuInformation){
+    fun setItem(menuInformation: MenuItemClass){
         binding.menuName.text = menuInformation.name
         binding.menuPrice.text = menuInformation.price.toString()
     }

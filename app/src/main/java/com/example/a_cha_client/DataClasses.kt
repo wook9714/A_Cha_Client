@@ -13,3 +13,6 @@ data class MutableArrayClass(
 )
 
 
+//업체 메뉴에 대한 데이터 클래스
+data class MenuItemClass(var name:String? = "", var price:Int? = 0,var description:String? = "", var imageLink:String? = "",var priority:Int? = 0)
+

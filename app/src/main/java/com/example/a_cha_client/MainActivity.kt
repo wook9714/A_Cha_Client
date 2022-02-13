@@ -12,11 +12,13 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import java.util.*
 import android.os.CountDownTimer
+import android.view.MenuItem
 import com.example.a_cha_client.calendarDecorator.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlin.collections.HashMap
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.hours
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         Functions.loadDataFromServer()
 
 
+
         binding.testButton.setOnClickListener {
             val intentToTestActivity = Intent(this, TestActivity :: class.java)
             startActivity(intentToTestActivity)
@@ -64,13 +67,26 @@ class MainActivity : AppCompatActivity() {
 
         var data : MutableList<MenuInformation> = Functions.loadData()
         var adapter = MenuRecyclerAdapter()
-        adapter.listData = data
+        //adapter.listData = data
+
         binding.menuRecyclerView.adapter = adapter
         val spanCount = 2 // 2 columns for recyclerview
         val spacing = 50 // 50px
         val includeEdge = true
         binding.menuRecyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
         binding.menuRecyclerView.layoutManager = GridLayoutManager(this, 2)
+        db.collection("items").document("죠샌드위치").collection("메뉴").get().addOnSuccessListener {
+            var loadedList = mutableListOf<MenuItemClass>()
+            for(i in it.documents){
+                var item = i.toObject<MenuItemClass>()
+                loadedList.add(item!!)
+            }
+            loadedList.sortBy { it.priority }
+            adapter.listData = loadedList
+            adapter.notifyDataSetChanged()
+
+        }
+
 
 
 
@@ -226,6 +242,34 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun addMenu(){
+        var item = MenuItemClass()
+        item.name = "치킨샐러드"
+        item.description = "신선한 야채와 닭가슴살이 만나 부담없이 즐길 수 있는 샐러드"
+        item.priority = 7
+
+
+        item.price = 5000
+
+
+
+        item.imageLink = item.name+"메뉴이미지"
+
+        db.collection("items").document("죠샌드위치").collection("메뉴").document(item.name!!).set(item)
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
+
+
