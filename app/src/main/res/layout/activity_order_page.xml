@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrderPageActivity"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:background="@color/white"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.35"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.65"
+            />
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/img_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@id/blankText"
+            />
+
+        <ImageView
+            android:id="@+id/brandName"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            android:src="@drawable/img_1"
+            app:layout_constraintTop_toTopOf="@id/topLayout"
+            android:paddingTop="16dp"
+            />
+        <TextView
+            android:id="@+id/blankText"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/brandName"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:padding="24dp">
+                <ImageView
+                    android:id="@+id/menuImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/img_2"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp"
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/brandImage"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#0B6837"
+                        android:text="JOE's SANDWICH"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textSize="18dp"
+
+
+                        />
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_box_color_beige"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/menuName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="메뉴이름"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:paddingHorizontal="20dp"/>
+
+                <TextView
+                    android:id="@+id/menuDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="메뉴에대한설명 메뉴에대한설명 메뉴에대한설명 메뉴에대한설명 메뉴에대한설명 ㅍ메뉴에대한설명 메뉴에대한설명 메뉴에대한설명 메뉴에대한설명 "
+                    android:textSize="14dp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="20dp"
+                    android:paddingHorizontal="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/menuPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="5800"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        android:textColor="@android:color/black"
+                        android:paddingStart="20dp"
+                        />
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="원"
+                        android:textStyle="bold"
+                        android:textSize="16dp"
+                        android:textColor="@android:color/black"
+                        android:paddingHorizontal="5dp"
+                        />
+
+
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="원산지 표기"
+                    android:textSize="12dp"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="50dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="원산지 표기에 대한 설명  \n원산지 표기에 대한 설명  \n원산지 표기에 대한 설명"
+                    android:textSize="12dp"
+                    android:layout_marginTop="6dp"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginBottom="40dp"
+                    />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_box_color_light_gray"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                >
+                <LinearLayout
+                    android:layout_width="108dp"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+
+                    <Button
+                        android:id="@+id/buttonMinus"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/img_4"
+                        />
+                    <TextView
+                        android:id="@+id/menuQuantity"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:text="1"
+                        android:textSize="18dp"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        />
+
+                    <Button
+                        android:id="@+id/buttonPlus"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/img_5"
+                        />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    >
+
+                    <TextView
+                        android:id="@+id/menuTotalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="5800"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:textColor="#FA1616"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="원"
+                        android:textSize="18dp"
+                        android:paddingStart="6dp"
+                        android:textStyle="bold"
+                        android:textColor="#FA1616"
+                        />
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/buttonAddOrderList"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_box_color_beige"
+                android:layout_marginBottom="10dp"
+                android:text="장바구니 담기"
+                android:textSize="18dp"
+                />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

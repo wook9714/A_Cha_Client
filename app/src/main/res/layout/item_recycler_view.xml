@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="210dp"
+    android:orientation="vertical"
+    android:background="@drawable/round_box_color_white"
+    >
+
+
+    <ImageView
+        android:id="@+id/menuImage"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:src="@drawable/img_2"
+        />
+
+    <TextView
+        android:id="@+id/menuName"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="참치 샌드위치"
+        android:textSize="16dp"
+        android:textColor="#191919"
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView
+        android:id="@+id/menuPrice"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="5800원"
+        android:textStyle="bold"
+        android:textColor="#FA1616"
+
+        />
+
+
+
+</LinearLayout>
