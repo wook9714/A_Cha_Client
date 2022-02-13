@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
 
         var db = Firebase.firestore
         var shoppingCartRef = db.collection("testCollection").document("uid").
-        collection("testShoppingCart").document("최근장바구니")
-        var usersShoppingCartByMap = TestDataClass()
-        var usersShoppingCart = mutableListOf<OrderListData>()
+        collection("testShoppingCart").document("최근장바구니 with 정렬순서")
+        var usersShoppingCartForServer = ShoppingListData()
+        var usersShoppingCartList = mutableListOf<OrderListData>()
 
     }
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         Functions.makeStatusBarTransparent(window)
 
-        Functions.loadDataFromServer()
+
 
 
 

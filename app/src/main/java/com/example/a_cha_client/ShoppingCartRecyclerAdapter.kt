@@ -29,15 +29,15 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
         holder.binding.deleteMenuButton.setOnClickListener {
             val theRemovedItem: OrderListData = listData.get(position)
             //removing item from data base
-            MainActivity.usersShoppingCartByMap.shoppingCart?.remove(theRemovedItem.menuName)
-            Log.d(TAG, "onBindViewHolder: ${MainActivity.usersShoppingCartByMap}")
-            MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartByMap)
+            MainActivity.usersShoppingCartForServer.shoppingListArray?.removeAt(position)
+            Log.d(TAG, "onBindViewHolder: ${MainActivity.usersShoppingCartForServer}")
+            MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
             listData.removeAt(position) // remove the item from list
             notifyItemRemoved(position) // notify the adapter about the removed item
             notifyItemRangeChanged(position,itemCount)
         }
 
-        var quantity = MainActivity.usersShoppingCartByMap.shoppingCart!!.get(orderListData.menuName)
+        var quantity = MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString().replace(Regex("[^0-9]"),"").toInt()
 
         holder.binding.buttonMinus.setOnClickListener {
             if (quantity == 1){
@@ -48,11 +48,11 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
                 quantity-=1
                 holder.binding.menuQuantityText.text = quantity.toString()
                 holder.binding.menuPrice.text = (quantity*6100).toString()
-                MainActivity.usersShoppingCartByMap.shoppingCart!!.replace(orderListData.menuName!!,quantity.toInt())
-                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartByMap)
-                MainActivity.usersShoppingCart[position].quantity = quantity
-                Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartByMap}")
-                Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCart}")
+                MainActivity.usersShoppingCartForServer.shoppingListArray!![position]!!.replace(orderListData.menuName!!,quantity.toInt())
+                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
+                MainActivity.usersShoppingCartList[position].quantity = quantity
+                Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
+                Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
             }
 
 
@@ -62,11 +62,11 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
                 quantity+=1
                 holder.binding.menuQuantityText.text = quantity.toString()
                 holder.binding.menuPrice.text = (quantity*6100).toString()
-                MainActivity.usersShoppingCartByMap.shoppingCart!!.replace(orderListData.menuName!!,quantity.toInt())
-                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartByMap)
-                MainActivity.usersShoppingCart[position].quantity = quantity
-                Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartByMap}")
-                Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCart}")
+                MainActivity.usersShoppingCartForServer.shoppingListArray!![position]!!.replace(orderListData.menuName!!,quantity.toInt())
+                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
+                MainActivity.usersShoppingCartList[position].quantity = quantity
+                Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
+                Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
 
             }
         }

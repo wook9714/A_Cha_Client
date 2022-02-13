@@ -25,7 +25,7 @@ class MenuRecyclerAdapter : RecyclerView.Adapter<MenuHolder>() {
         holder.itemView.setOnClickListener {
 
             val intentToOrderPage= Intent(holder.itemView?.context, OrderPageActivity ::class.java)
-            for (i in MainActivity.usersShoppingCart){
+            for (i in MainActivity.usersShoppingCartList){
                 if(i.menuName == menuInformation.name){
                     intentToOrderPage.putExtra("newThing?", false)
                 }

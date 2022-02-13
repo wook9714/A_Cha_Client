@@ -70,19 +70,25 @@ class TestActivity : AppCompatActivity() {
                 Log.d(TAG, "get failed with ", exception)
             }
 
-        Log.d(TAG, MainActivity.usersShoppingCart.toString() + "1")
-        Log.d(TAG, MainActivity.usersShoppingCartByMap.toString() +"2")
+        Log.d(TAG, MainActivity.usersShoppingCartForServer.toString() + "1")
+        Log.d(TAG, MainActivity.usersShoppingCartList.toString() +"2")
 
-        var testUploadData = MutableArrayClass(testingArray = mutableListOf(mutableMapOf("test" to 2), mutableMapOf("test" to 3)))
+        var testUploadData = ShoppingListData(shoppingListArray = mutableListOf(mutableMapOf("과일한컵" to 2),mutableMapOf("클럽샌드위치" to 3), mutableMapOf("햄치즈샌드위치" to 3),mutableMapOf("레몬에이드" to 3)))
         MainActivity.db.collection("testCollection").document("uid").collection("testShoppingCart").document("최근장바구니 with 정렬순서")
             .set(testUploadData)
 
         MainActivity.db.collection("testCollection").document("uid").collection("testShoppingCart").document("최근장바구니 with 정렬순서")
             .get().addOnSuccessListener {
-                Log.d(TAG,it.toString())
-                var d = it.data!!.values
-                for (i in d){
-                    Log.d(TAG, i.toString())
+                var d = it.toObject<ShoppingListData>()
+                Log.d(TAG, d.toString())
+                for(i in d!!.shoppingListArray!!){
+
+
+
+                    Log.d(TAG, (i!!.keys.toString().replace("[","")).replace("]","").toString())
+                    Log.d(TAG, ((i!!.values.toString().replace(Regex("[^0-9]"),"").toInt()).toString()))
+
+
 
                 }
             }

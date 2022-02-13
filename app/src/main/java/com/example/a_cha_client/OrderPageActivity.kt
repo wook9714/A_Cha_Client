@@ -16,15 +16,12 @@ class OrderPageActivity : AppCompatActivity() {
     val TAG : String = "로그"
 
 
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         Log.d(TAG, "OrderPageActivity - onCreate() called")
-
         Functions.makeStatusBarTransparent(window)
-
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
@@ -101,44 +98,76 @@ class OrderPageActivity : AppCompatActivity() {
         if (newThingOrNot == false){
             binding.buttonAddOrderList.setOnClickListener {
                 val intentToOrderList = Intent(this, OrderListActivity::class.java)
-                for (i in MainActivity.usersShoppingCart) {
-                    if (i.menuName == menuName!!) {
 
-                        quantity += i.quantity!!
-                        i.quantity = quantity
-                        Log.d(TAG, "Quantity = $quantity")
-                        MainActivity.usersShoppingCartByMap.shoppingCart!!.remove(menuName)
-                        MainActivity.usersShoppingCartByMap.shoppingCart!!.set(menuName, quantity)
-                        MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartByMap)
-
-                        Log.d(TAG, "shoppingCart : " + MainActivity.usersShoppingCart.toString())
-                        Log.d(TAG, "shoppingCartByMap : " + MainActivity.usersShoppingCartByMap.toString()
-                        )
-                        quantity = 1
-                        Log.d(TAG, "Quantity = $quantity")
-                        binding.menuQuantity.text = quantity.toString()
-                        binding.menuTotalPrice.text = (quantity * menuPrice).toString()
-                        Log.d(TAG, "기존메뉴 수량변경")
-                        startActivity(intentToOrderList)
+                /*
+                var iter = MainActivity.usersShoppingCartList.iterator()
+                while(iter.hasNext()){
+                    if(MainActivity.usersShoppingCartForServer){
+                        iter.remove()
+                    }
+                    else{
+                        iter.next()
                     }
 
                 }
+                */
+                var q = MainActivity.usersShoppingCartForServer.shoppingListArray!!.find{it!!.keys.toString().trim('[',']') == menuName}!!.values.toString().trim('[',']')
+                Log.d("boolTag",MainActivity.usersShoppingCartForServer.shoppingListArray!!.removeAll { it!!.keys.toString().trim('[',']') == menuName }.toString())
+                MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName!! to q!!.toInt()+quantity))
+                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer).addOnSuccessListener {
+                    startActivity(intentToOrderList)
+                }
+
+                //legacy
+                /*
+                for (i in MainActivity.usersShoppingCartList) {
+
+                    //var index = MainActivity.usersShoppingCartList.indexOf(OrderListData(menuName, ))
+                    var index = MainActivity.usersShoppingCartList.indexOf(MainActivity.usersShoppingCartList.find{it.menuName==menuName})
+                    Log.d("ttt",index.toString())
+                    if (i.menuName == menuName!!&&index!=-1) {
+
+                        Log.d(TAG,"인덱" + index.toString())
+
+                        quantity += i.quantity!!
+                        i.quantity = quantity
+                        Log.d("myTAG", "Quantity = $quantity")
+                        MainActivity.usersShoppingCartList.removeAll { it.menuName== menuName }
+                        //MainActivity.usersShoppingCartForServer.shoppingListArray!!.removeAt(index)
+                        MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName to quantity))
+                        MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
+
+                        Log.d("myTAG", "shoppingCart : " + MainActivity.usersShoppingCartList.toString())
+                        Log.d("myTAG", "shoppingCartByMap : " + MainActivity.usersShoppingCartForServer.toString())
+                        quantity = 1
+                        Log.d("myTAG", "Quantity = $quantity")
+                        binding.menuQuantity.text = quantity.toString()
+                        binding.menuTotalPrice.text = (quantity * menuPrice).toString()
+                        Log.d("myTAG", "기존메뉴 수량변경")
+                        startActivity(intentToOrderList)
+                        break
+                    }
+                }
+
+*/
             }
 
         }else{
             binding.buttonAddOrderList.setOnClickListener {
                 val intentToOrderList = Intent(this, OrderListActivity::class.java)
-                MainActivity.usersShoppingCartByMap.shoppingCart!!.put(menuName!! ,quantity)
-                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartByMap)
-                var orderListData = OrderListData(menuName, quantity)
-                MainActivity.usersShoppingCart.add(orderListData)
-                quantity = 1
-                Log.d(TAG, "Quantity = $quantity")
-                binding.menuQuantity.text = quantity.toString()
-                binding.menuTotalPrice.text = (quantity*menuPrice).toString()
-                startActivity(intentToOrderList)
-                Log.d(TAG, "새로운메뉴추가")
-                newThingOrNot = false
+                MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName!! to quantity))
+                MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer).addOnSuccessListener {
+                    var orderListData = OrderListData(menuName, quantity)
+                    MainActivity.usersShoppingCartList.add(0,orderListData)
+                    quantity = 1
+                    Log.d(TAG, "Quantity = $quantity")
+                    binding.menuQuantity.text = quantity.toString()
+                    binding.menuTotalPrice.text = (quantity*menuPrice).toString()
+                    startActivity(intentToOrderList)
+                    Log.d(TAG, "새로운메뉴추가")
+                    newThingOrNot = false
+                }
+
             }
 
 

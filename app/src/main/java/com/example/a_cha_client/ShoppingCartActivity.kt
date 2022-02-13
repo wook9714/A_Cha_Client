@@ -27,7 +27,7 @@ class OrderListActivity : AppCompatActivity() {
         }
 
         var adapter = OrderListRecyclerAdapter()
-        adapter.listData = MainActivity.usersShoppingCart
+        adapter.listData = MainActivity.usersShoppingCartList
         binding.orderListRecyclerView.adapter = adapter
         binding.orderListRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -46,21 +46,21 @@ class OrderListActivity : AppCompatActivity() {
     }
 
     fun updateShoppingListOnShoppingCartActivity(){
-        MainActivity.usersShoppingCartByMap.shoppingCart?.clear()
-        MainActivity.usersShoppingCart.clear()
-        Log.d(TAG, "ShoppingListActivity : cleanShoppingCartByMap ${MainActivity.usersShoppingCartByMap}")
-        Log.d(TAG, "ShoppingListActivity : cleanShoppingCart ${MainActivity.usersShoppingCart}")
+        MainActivity.usersShoppingCartForServer.shoppingListArray?.clear()
+        MainActivity.usersShoppingCartList.clear()
+        Log.d(TAG, "ShoppingListActivity : cleanShoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
+        Log.d(TAG, "ShoppingListActivity : cleanShoppingCart ${MainActivity.usersShoppingCartList}")
 
         MainActivity.shoppingCartRef.get().addOnSuccessListener {
-            val data = it.toObject<TestDataClass>()
-            for(i in data!!.shoppingCart!!){
-                var menuName = i.key
-                var quantity = i.value
-                MainActivity.usersShoppingCart.add(OrderListData(menuName, quantity))
+            val data = it.toObject<ShoppingListData>()
+            for(i in data!!.shoppingListArray!!){
+                var menuName = (i!!.keys.toString().replace("[","")).replace("]","").toString()
+                var quantity = (i!!.values.toString().replace(Regex("[^0-9]"),"").toInt())
+                MainActivity.usersShoppingCartList.add(OrderListData(menuName, quantity))
             }
-            MainActivity.usersShoppingCartByMap = data
-            Log.d(TAG, "ShoppingListActivity : update shoppingCartByMap ${MainActivity.usersShoppingCartByMap}")
-            Log.d(TAG, "ShoppingListActivity : update shoppingCart ${MainActivity.usersShoppingCart}")
+            MainActivity.usersShoppingCartForServer = data
+            Log.d(TAG, "ShoppingListActivity : update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
+            Log.d(TAG, "ShoppingListActivity : update shoppingCart ${MainActivity.usersShoppingCartList}")
             binding.orderListRecyclerView.adapter!!.notifyDataSetChanged()
         }
     }

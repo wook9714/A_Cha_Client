@@ -8,8 +8,8 @@ data class TestDataClass(
     var shoppingCart: MutableMap<String,Int>? = null
 )
 
-data class MutableArrayClass(
-    var testingArray: MutableList<MutableMap<String, Int>?>? = null
+data class ShoppingListData(
+    var shoppingListArray: MutableList<MutableMap<String, Int>?>? = null
 )
 
 

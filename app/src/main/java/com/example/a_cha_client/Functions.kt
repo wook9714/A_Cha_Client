@@ -35,39 +35,39 @@ object Functions {
     }
 
     fun updateShoppingList(){
-        MainActivity.usersShoppingCartByMap.shoppingCart?.clear()
-        MainActivity.usersShoppingCart.clear()
-        Log.d(TAG, "cleanShoppingCartByMap ${MainActivity.usersShoppingCartByMap}")
-        Log.d(TAG, "cleanShoppingCart ${MainActivity.usersShoppingCart}")
+        MainActivity.usersShoppingCartForServer.shoppingListArray?.clear()
+        MainActivity.usersShoppingCartList.clear()
+        Log.d(TAG, "cleanShoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
+        Log.d(TAG, "cleanShoppingCart ${MainActivity.usersShoppingCartList}")
 
         MainActivity.shoppingCartRef.get().addOnSuccessListener {
-            val data = it.toObject<TestDataClass>()
-            for(i in data!!.shoppingCart!!){
-                var menuName = i.key
-                var quantity = i.value
-                MainActivity.usersShoppingCart.add(OrderListData(menuName, quantity))
+            val data = it.toObject<ShoppingListData>()
+            for(i in data!!.shoppingListArray!!){
+                var menuName = (i!!.keys.toString().replace("[","")).replace("]","").toString()
+                var quantity = (i!!.values.toString().replace(Regex("[^0-9]"),"").toInt())
+                MainActivity.usersShoppingCartList.add(OrderListData(menuName, quantity))
             }
-            MainActivity.usersShoppingCartByMap = data
-            Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartByMap}")
-            Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCart}")
+            MainActivity.usersShoppingCartForServer = data
+            Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
+            Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
 
         }
     }
 
 
 
-    fun loadDataFromServer(){
-         MainActivity.db.collection("items").document("죠샌드위치").collection("메뉴").get().addOnSuccessListener {
-            var a = it
-             Log.d(TAG, "loadDataFromServer: ${a.documents}")
-             a.query
+    //fun loadDataFromServer(){
+    //     MainActivity.db.collection("items").document("죠샌드위치").collection("메뉴").get().addOnSuccessListener {
+      //      var a = it
+        //     Log.d(TAG, "loadDataFromServer: ${a.documents}")
+          //   a.query
             
-        }
+        //}
         
 
 
 
-    }
+//    }
 
     fun loadData() : MutableList<MenuInformation>{
         val data : MutableList<MenuInformation> = mutableListOf()
