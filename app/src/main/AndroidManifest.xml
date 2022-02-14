@@ -13,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.A_Cha_Client">
         <activity
-            android:name=".LoginActivity"
+            android:name=".BillingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".JoinMemberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true" />
         <activity
             android:name=".TestActivity"
             android:exported="false" />
@@ -33,9 +42,7 @@
             android:noHistory="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -18,6 +18,10 @@ val TAG : String = "로그"
 
 object Functions {
 
+    fun testFunc(func:Unit){
+        func
+    }
+
 
     fun makeStatusBarTransparent( window : Window) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -44,12 +48,27 @@ object Functions {
 
         MainActivity.shoppingCartRef.get().addOnSuccessListener {
             val data = it.toObject<ShoppingListData>()
-            for(i in data!!.shoppingListArray!!){
-                var menuName = (i!!.keys.toString().replace("[","")).replace("]","").toString()
-                var quantity = (i!!.values.toString().replace(Regex("[^0-9]"),"").toInt())
-                MainActivity.usersShoppingCartList.add(OrderListData(menuName, quantity))
+            Log.d("isAuthHaveUid","id:"+Auth.uid)
+            Log.d("isAuthHaveUid","data:"+data.toString())
+            //Log.d("isAuthHaveUid","size"+data!!.shoppingListArray!!.size.toString())
+
+            if(data!=null){
+                for(i in data!!.shoppingListArray!!){
+
+                    var menuName = i!!.toList().get(0).first
+                    var quantity = i!!.toList().get(0).second
+                    //var menuName = (i!!.keys.toString().replace("[","")).replace("]","").toString()
+                    //var quantity = (i!!.values.toString().replace(Regex("[^0-9]"),"").toInt())
+                    MainActivity.usersShoppingCartList.add(OrderListData(menuName, quantity))
+                }
+                MainActivity.usersShoppingCartForServer = data
             }
-            MainActivity.usersShoppingCartForServer = data
+
+
+
+
+
+
             Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
             Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
 

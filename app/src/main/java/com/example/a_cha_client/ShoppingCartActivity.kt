@@ -4,20 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a_cha_client.databinding.ActivityOrderListBinding
-import com.example.a_cha_client.databinding.ActivityOrderPageBinding
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 
 class OrderListActivity : AppCompatActivity() {
+    val BillingRequestCode = 99
     companion object{
         lateinit var instance:OrderListActivity
     }
+    private var sumPrice = 0
     val TAG : String = "로그"
     val binding by lazy { ActivityOrderListBinding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +32,11 @@ class OrderListActivity : AppCompatActivity() {
         binding.orderListRecyclerView.adapter = adapter
         binding.orderListRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        binding.payButtonWithTotalPrice.setOnClickListener {
+            val intent = Intent(this, BillingActivity::class.java)
+            intent.putExtra("price",sumPrice)
+            startActivityForResult(intent,BillingRequestCode)
+        }
 
 
 
@@ -43,6 +44,19 @@ class OrderListActivity : AppCompatActivity() {
 
 
 
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode== RESULT_OK){
+            when(requestCode){
+                BillingRequestCode->{
+                    //결제가 성공적으로 완료시 행동
+                    //finish()
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -58,7 +72,9 @@ class OrderListActivity : AppCompatActivity() {
 
         MainActivity.shoppingCartRef.get().addOnSuccessListener {
             val data = it.toObject<ShoppingListData>()
+
             for(i in data!!.shoppingListArray!!){
+
                 var menuName = (i!!.keys.toString().replace("[","")).replace("]","").toString()
                 var quantity = (i!!.values.toString().replace(Regex("[^0-9]"),"").toInt())
                 MainActivity.usersShoppingCartList.add(OrderListData(menuName, quantity))
@@ -68,6 +84,7 @@ class OrderListActivity : AppCompatActivity() {
             Log.d(TAG, "ShoppingListActivity : update shoppingCart ${MainActivity.usersShoppingCartList}")
             binding.orderListRecyclerView.adapter!!.notifyDataSetChanged()
             sumAllPriceOfItems()
+
         }
     }
 
@@ -80,6 +97,7 @@ class OrderListActivity : AppCompatActivity() {
             Log.d("menuPrice","합:"+sum.toString())
             sum += i.quantity!! * menuPrice
         }
+        sumPrice = sum
 
         binding.payButtonWithTotalPrice.text = sum.toString()+"원 결제"
     }

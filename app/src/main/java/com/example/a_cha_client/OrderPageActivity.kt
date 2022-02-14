@@ -159,6 +159,8 @@ class OrderPageActivity : AppCompatActivity() {
         }else{
             binding.buttonAddOrderList.setOnClickListener {
                 val intentToOrderList = Intent(this, OrderListActivity::class.java)
+
+
                 MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName!! to quantity))
                 MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer).addOnSuccessListener {
                     var orderListData = OrderListData(menuName, quantity)

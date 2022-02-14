@@ -4,4 +4,5 @@ import com.google.firebase.auth.FirebaseAuth
 
 object Auth {
     lateinit var auth: FirebaseAuth
+    lateinit var uid:String
 }

@@ -13,6 +13,7 @@ import com.prolificinteractive.materialcalendarview.CalendarMode
 import java.util.*
 import android.os.CountDownTimer
 import android.view.MenuItem
+import com.example.a_cha_client.Auth.uid
 import com.example.a_cha_client.calendarDecorator.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
@@ -33,8 +34,11 @@ class MainActivity : AppCompatActivity() {
     companion object{
 
         var db = Firebase.firestore
-        var shoppingCartRef = db.collection("testCollection").document("uid").
+        /*
+        var shoppingCartRef = db.collection("testCollection").document(uid).
         collection("testShoppingCart").document("최근장바구니 with 정렬순서")
+         */
+        var shoppingCartRef = DataFunction.shopping_basket_ref
         var usersShoppingCartForServer = ShoppingListData()
         var usersShoppingCartList = mutableListOf<OrderListData>()
         var loadedMenuData = mutableListOf<MenuItemClass>()

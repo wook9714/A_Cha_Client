@@ -4,22 +4,34 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.a_cha_client.Auth.auth
+import com.example.a_cha_client.Auth.uid
 import com.example.a_cha_client.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
+    companion object{
+        var instance:LoginActivity? = null
+    }
     val RC_SIGN_IN = 30
     val binding by lazy{ActivityLoginBinding.inflate(layoutInflater)}
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        Auth.auth = Firebase.auth
+
+        instance = this
+
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -28,8 +40,21 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+
+
+
+
+
+        Log.d("loginTest",auth.currentUser.toString())
+
+        binding.googleLoginBtn.setOnClickListener {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+        binding.logOut.setOnClickListener {
+            Firebase.auth.signOut()
+        }
+
 
     }
 
@@ -44,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)!!
                 Log.d("loginGoogle", "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
+
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("loginGoogle", "Google sign in failed", e)
@@ -59,11 +85,30 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
+                    uid = auth.uid!!
+                    Log.d("loginTest","uid:"+uid.toString())
+                    Firebase.firestore.collection("users").document(uid).get().addOnSuccessListener {
+                        if(it.data==null){
+                            Log.d("loginTest","회원가입 필요")
+                            val joinIntent = Intent(this,JoinMemberActivity::class.java)
+                            startActivity(joinIntent)
+                        }
+                        else{
+                            Log.d("loginTest","회원정보 확인됨"+it.toString())
+                            DataFunction.userInfoData = it.toObject<UserInfoData>()!!
+                            val intentGoMain = Intent(this,MainActivity::class.java)
+                            startActivity(intentGoMain)
+                            finish()
+                        }
+                    }
+
+                    //DataFunction.join_member()
+
+
 
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-
                 }
             }
     }
