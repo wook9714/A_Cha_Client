@@ -27,9 +27,18 @@ class BillingActivity : AppCompatActivity() {
             orderInfo.detailedLocation = detailedLoc
             orderInfo.userID = Auth.uid
 
+            for(i in MainActivity.usersShoppingCartForServer.shoppingListArray!!.toList()){
+                val orderedMenuInfo =  i!!.toList().get(0)
+                for(j in 1..orderedMenuInfo.second){
+                    orderInfo.orderItems.add(orderedMenuInfo.first)
+                }
+
+
+            }
+
             for(i in MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(0)!!.toList().groupingBy { it.first }.eachCount()){
                 for(j in 0..i.value){
-                    orderInfo.orderItems.add(i.key)
+                    //orderInfo.orderItems.add(i.key)
                 }
             }
             DataFunction.order_info_ref.add(orderInfo).addOnSuccessListener {
