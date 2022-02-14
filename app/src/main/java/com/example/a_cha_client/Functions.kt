@@ -17,6 +17,8 @@ import java.util.ArrayList
 val TAG : String = "로그"
 
 object Functions {
+
+
     fun makeStatusBarTransparent( window : Window) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.apply {

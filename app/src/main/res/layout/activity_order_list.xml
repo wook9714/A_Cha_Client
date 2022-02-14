@@ -144,7 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/no_round_box_color_beige"
-        android:text="36000원 결제"
+        android:text="0원 결제"
         android:textSize="18dp"
 
         android:layout_marginBottom="6dp"

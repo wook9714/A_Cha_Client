@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/round_box_color_beige.xml" value="0.4197916666666667" />
         <entry key="app/src/main/res/drawable/round_box_color_light_gray.xml" value="0.4197916666666667" />
         <entry key="app/src/main/res/drawable/round_box_color_white.xml" value="0.4197916666666667" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.35625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21198715974851426" />
         <entry key="app/src/main/res/layout/activity_order_list.xml" value="0.13836802851403404" />
         <entry key="app/src/main/res/layout/activity_order_page.xml" value="0.2464186535416375" />

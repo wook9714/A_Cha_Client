@@ -32,9 +32,9 @@ class MenuRecyclerAdapter : RecyclerView.Adapter<MenuHolder>() {
             }
             intentToOrderPage.putExtra("menuName",menuInformation.name)
             intentToOrderPage.putExtra("menuPrice",menuInformation.price)
+            intentToOrderPage.putExtra("menuDescription",menuInformation.description)
             ContextCompat.startActivity(holder.itemView.context,intentToOrderPage, null)
-            Toast.makeText(holder.itemView?.context, "버튼 클릭됨",Toast.LENGTH_LONG)
-                .show()
+
         }
     }
 

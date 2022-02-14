@@ -76,6 +76,9 @@ class OrderPageActivity : AppCompatActivity() {
         binding.menuQuantity.text = quantity.toString()
         binding.menuPrice.text = menuPrice.toString()
 
+        val menuDescription = intent.getStringExtra("menuDescription")
+        binding.menuDescription.text = menuDescription
+
         binding.buttonMinus.setOnClickListener {
             if (quantity == 1){
                 binding.menuQuantity.text = quantity.toString()
@@ -113,6 +116,7 @@ class OrderPageActivity : AppCompatActivity() {
                 */
                 var q = MainActivity.usersShoppingCartForServer.shoppingListArray!!.find{it!!.keys.toString().trim('[',']') == menuName}!!.values.toString().trim('[',']')
                 Log.d("boolTag",MainActivity.usersShoppingCartForServer.shoppingListArray!!.removeAll { it!!.keys.toString().trim('[',']') == menuName }.toString())
+                Log.d("orderTag",q)
                 MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName!! to q!!.toInt()+quantity))
                 MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer).addOnSuccessListener {
                     startActivity(intentToOrderList)

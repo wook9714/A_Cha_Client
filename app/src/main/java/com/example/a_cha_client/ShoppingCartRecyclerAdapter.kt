@@ -17,7 +17,7 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderListHolder {
         val binding = ItemRecyclerOrderListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return OrderListHolder(binding)
+        return OrderListHolder(binding,listData)
     }
 
 
@@ -34,20 +34,25 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
             MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
             listData.removeAt(position) // remove the item from list
             notifyItemRemoved(position) // notify the adapter about the removed item
+            OrderListActivity.instance.sumAllPriceOfItems()
             notifyItemRangeChanged(position,itemCount)
         }
 
         var quantity = MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString().replace(Regex("[^0-9]"),"").toInt()
+        Log.d("quantityTag", MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString())
+        var price = MainActivity.loadedMenuData.find{it.name == listData[position].menuName}?.price?:0
+
+
 
         holder.binding.buttonMinus.setOnClickListener {
             if (quantity == 1){
                 holder.binding.menuQuantityText.text = quantity.toString()
-                holder.binding.menuPrice.text = (quantity*6100).toString()
+                holder.binding.menuPrice.text = (quantity*price).toString()
 
             }else if (quantity != null) {
                 quantity-=1
                 holder.binding.menuQuantityText.text = quantity.toString()
-                holder.binding.menuPrice.text = (quantity*6100).toString()
+                holder.binding.menuPrice.text = (quantity*price).toString()
                 MainActivity.usersShoppingCartForServer.shoppingListArray!![position]!!.replace(orderListData.menuName!!,quantity.toInt())
                 MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
                 MainActivity.usersShoppingCartList[position].quantity = quantity
@@ -55,19 +60,19 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
                 Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
             }
 
-
+            OrderListActivity.instance.sumAllPriceOfItems()
         }
         if (quantity != null) {
             holder.binding.buttonPlus.setOnClickListener {
                 quantity+=1
                 holder.binding.menuQuantityText.text = quantity.toString()
-                holder.binding.menuPrice.text = (quantity*6100).toString()
+                holder.binding.menuPrice.text = (quantity*price).toString()
                 MainActivity.usersShoppingCartForServer.shoppingListArray!![position]!!.replace(orderListData.menuName!!,quantity.toInt())
                 MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
                 MainActivity.usersShoppingCartList[position].quantity = quantity
                 Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
                 Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
-
+                OrderListActivity.instance.sumAllPriceOfItems()
             }
         }
     }
@@ -77,7 +82,7 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
     }
 }
 
-class OrderListHolder(val binding: ItemRecyclerOrderListBinding) : RecyclerView.ViewHolder(binding.root){
+class OrderListHolder(val binding: ItemRecyclerOrderListBinding,val listData:MutableList<OrderListData>) : RecyclerView.ViewHolder(binding.root){
     @RequiresApi(Build.VERSION_CODES.N)
     fun setItem(orderListData: OrderListData, position: Int){
 
@@ -88,7 +93,8 @@ class OrderListHolder(val binding: ItemRecyclerOrderListBinding) : RecyclerView.
         quantity = orderListData.quantity.toString().toInt()
         binding.menuName.text = menuName
         binding.menuQuantityText.text = quantity.toString()
-        binding.menuPrice.text = (quantity * 6100).toString()
+        var price = MainActivity.loadedMenuData.find{it.name == listData[position].menuName}?.price?:0
+        binding.menuPrice.text = (quantity * price).toString()
 
     }
 }

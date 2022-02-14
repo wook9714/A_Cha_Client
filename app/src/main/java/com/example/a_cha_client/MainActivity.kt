@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         collection("testShoppingCart").document("최근장바구니 with 정렬순서")
         var usersShoppingCartForServer = ShoppingListData()
         var usersShoppingCartList = mutableListOf<OrderListData>()
+        var loadedMenuData = mutableListOf<MenuItemClass>()
 
     }
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentToOrderList)
         }
 
-        var data : MutableList<MenuInformation> = Functions.loadData()
+        //var data : MutableList<MenuInformation> = Functions.loadData()
         var adapter = MenuRecyclerAdapter()
         //adapter.listData = data
 
@@ -73,16 +74,19 @@ class MainActivity : AppCompatActivity() {
         val spanCount = 2 // 2 columns for recyclerview
         val spacing = 50 // 50px
         val includeEdge = true
+
         binding.menuRecyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
         binding.menuRecyclerView.layoutManager = GridLayoutManager(this, 2)
+
         db.collection("items").document("죠샌드위치").collection("메뉴").get().addOnSuccessListener {
-            var loadedList = mutableListOf<MenuItemClass>()
+
+            Log.d("loadTag","menuDataLoaded")
             for(i in it.documents){
                 var item = i.toObject<MenuItemClass>()
-                loadedList.add(item!!)
+                loadedMenuData.add(item!!)
             }
-            loadedList.sortBy { it.priority }
-            adapter.listData = loadedList
+            loadedMenuData.sortBy { it.priority }
+            adapter.listData = loadedMenuData
             adapter.notifyDataSetChanged()
 
         }
