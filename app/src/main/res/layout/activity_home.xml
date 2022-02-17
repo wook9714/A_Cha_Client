@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.35"
+            />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.65"
+            />
+
+
+
+        <ImageView
+            android:id="@+id/brandName"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toStartOf="@id/guidelineL"
+            app:layout_constraintEnd_toEndOf="@id/guidelineR"
+            android:src="@drawable/img_1"
+            app:layout_constraintTop_toTopOf="@id/topLayout"
+            android:paddingTop="16dp"
+            />
+
+        <TextView
+            android:id="@+id/blankText"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/brandName"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/topLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="16dp"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                >
+                <Button
+                    android:id="@+id/myInfoButton"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="4.5"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/round_box_color_beige"
+                    android:text="내 정보"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    />
+                <Button
+                    android:id="@+id/alarmButton"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/round_box_color_beige"
+                    android:text="알림"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/myOrderDetailsButton"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/round_box_color_beige"
+                android:text="내 주문내역"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                />
+
+            <Button
+                android:id="@+id/orderButton"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/round_box_color_beige"
+                android:text="주문하기"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                >
+                <Button
+                    android:id="@+id/shoppingCartButton"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="4.5"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/round_box_color_beige"
+                    android:text="장바구니"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    />
+                <Button
+                    android:id="@+id/inquiriesButton"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/round_box_color_beige"
+                    android:text="문의"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#ECEFFC"
+                android:layout_marginTop="12dp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
 import kotlin.collections.HashMap
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.hours
@@ -27,12 +26,7 @@ import kotlin.time.hours
 
 class MainActivity : AppCompatActivity() {
 
-
-
-
-
     companion object{
-
         var db = Firebase.firestore
         /*
         var shoppingCartRef = db.collection("testCollection").document(uid).
@@ -42,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         var usersShoppingCartForServer = ShoppingListData()
         var usersShoppingCartList = mutableListOf<OrderListData>()
         var loadedMenuData = mutableListOf<MenuItemClass>()
-
     }
 
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -52,10 +45,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Functions.makeStatusBarTransparent(window)
-
-
-
-
 
         binding.testButton.setOnClickListener {
             val intentToTestActivity = Intent(this, TestActivity :: class.java)
@@ -83,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         binding.menuRecyclerView.layoutManager = GridLayoutManager(this, 2)
 
         db.collection("items").document("죠샌드위치").collection("메뉴").get().addOnSuccessListener {
-
+            loadedMenuData.clear()
             Log.d("loadTag","menuDataLoaded")
             for(i in it.documents){
                 var item = i.toObject<MenuItemClass>()
@@ -93,15 +82,9 @@ class MainActivity : AppCompatActivity() {
             adapter.listData = loadedMenuData
             adapter.notifyDataSetChanged()
 
+
+
         }
-
-
-
-
-
-
-
-
 
 
 

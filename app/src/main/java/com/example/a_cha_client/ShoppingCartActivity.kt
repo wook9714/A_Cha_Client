@@ -31,7 +31,6 @@ class OrderListActivity : AppCompatActivity() {
         adapter.listData = MainActivity.usersShoppingCartList
         binding.orderListRecyclerView.adapter = adapter
         binding.orderListRecyclerView.layoutManager = LinearLayoutManager(this)
-
         binding.payButtonWithTotalPrice.setOnClickListener {
             val intent = Intent(this, BillingActivity::class.java)
             intent.putExtra("price",sumPrice)

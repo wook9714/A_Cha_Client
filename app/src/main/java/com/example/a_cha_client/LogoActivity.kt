@@ -15,6 +15,12 @@ class LogoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_logo)
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         Auth.auth = Firebase.auth
 
         moveMain(1)
@@ -34,8 +40,8 @@ class LogoActivity : AppCompatActivity() {
                 DataFunction.db.collection("users").document(Auth.uid).get().addOnSuccessListener {
                     if(it.data !=null){
                         DataFunction.userInfoData = it.toObject<UserInfoData>()!!
-                        val goMainActivity = Intent(this,MainActivity::class.java)
-                        startActivity(goMainActivity)
+                        val intentToHomeActivity = Intent(this,HomeActivity::class.java)
+                        startActivity(intentToHomeActivity)
                     }
                     else{
                         val goLoginActivity = Intent(this,LoginActivity::class.java)
