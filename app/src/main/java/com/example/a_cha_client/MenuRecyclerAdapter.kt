@@ -10,9 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a_cha_client.databinding.ActivityMainBinding
 import com.example.a_cha_client.databinding.ItemRecyclerViewBinding
+import com.google.gson.Gson
 
 class MenuRecyclerAdapter : RecyclerView.Adapter<MenuHolder>() {
-    var listData = mutableListOf<MenuItemClass>()
+    var listData = mutableListOf<MenuInfo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuHolder {
         val binding = ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -30,7 +31,9 @@ class MenuRecyclerAdapter : RecyclerView.Adapter<MenuHolder>() {
                     intentToOrderPage.putExtra("newThing?", false)
                 }
             }
+            intentToOrderPage.putExtra("menuJonData",Gson().toJson(menuInformation))
             intentToOrderPage.putExtra("menuName",menuInformation.name)
+            intentToOrderPage.putExtra("storeName",menuInformation.storeName)
             intentToOrderPage.putExtra("menuPrice",menuInformation.price)
             intentToOrderPage.putExtra("menuDescription",menuInformation.description)
             ContextCompat.startActivity(holder.itemView.context,intentToOrderPage, null)
@@ -52,7 +55,7 @@ class MenuHolder(val binding: ItemRecyclerViewBinding) : RecyclerView.ViewHolder
     }
 
 
-    fun setItem(menuInformation: MenuItemClass){
+    fun setItem(menuInformation: MenuInfo){
         binding.menuName.text = menuInformation.name
         binding.menuPrice.text = menuInformation.price.toString()
     }

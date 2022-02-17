@@ -23,7 +23,7 @@ class LogoActivity : AppCompatActivity() {
 
         Auth.auth = Firebase.auth
 
-        moveMain(1)
+        moveMain(0)
 
 
 
@@ -41,10 +41,13 @@ class LogoActivity : AppCompatActivity() {
                     if(it.data !=null){
                         DataFunction.userInfoData = it.toObject<UserInfoData>()!!
                         val intentToHomeActivity = Intent(this,HomeActivity::class.java)
-                        startActivity(intentToHomeActivity)
+                        DataFunction.loadBasket(startActivity(intentToHomeActivity))
+                        //
+
                     }
                     else{
                         val goLoginActivity = Intent(this,LoginActivity::class.java)
+
                         startActivity(goLoginActivity)
                     }
                 }

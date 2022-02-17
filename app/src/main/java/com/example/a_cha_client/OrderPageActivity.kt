@@ -9,11 +9,14 @@ import androidx.annotation.RequiresApi
 import com.example.a_cha_client.databinding.ActivityMainBinding
 import com.example.a_cha_client.databinding.ActivityOrderListBinding
 import com.example.a_cha_client.databinding.ActivityOrderPageBinding
+import com.google.gson.Gson
+import kotlinx.coroutines.selects.select
 
 class OrderPageActivity : AppCompatActivity() {
 
     val binding by lazy { ActivityOrderPageBinding.inflate(layoutInflater) }
     val TAG : String = "로그"
+    lateinit var selectedItemInfo:MenuInfo
 
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -25,6 +28,8 @@ class OrderPageActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             onBackPressed()
         }
+        selectedItemInfo = Gson().fromJson(intent.getStringExtra("menuJonData"),MenuInfo::class.java)
+        Log.d("jsonTag",selectedItemInfo.toString())
         
 /*
         binding.buttonAddOrderList.setOnClickListener {
@@ -63,7 +68,7 @@ class OrderPageActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Functions.updateShoppingList()
+        //Functions.updateShoppingList()
         var newThingOrNot : Boolean = intent.getBooleanExtra("newThing?",true)
 
         Log.d(TAG, "onResume: newThingOrNot : $newThingOrNot")
@@ -98,6 +103,30 @@ class OrderPageActivity : AppCompatActivity() {
             Log.d(TAG, "Quantity : $quantity")
         }
 
+        binding.buttonAddOrderList.setOnClickListener {
+            val findedInfo = DataFunction.userBasket.orderedItems!!.find { it.first.storeName==selectedItemInfo.storeName && it.first.name==selectedItemInfo.name }
+            if(findedInfo!=null){
+                //이미 장바구니에 선택한 메뉴가 존재하는 경우
+                val index = DataFunction.userBasket.orderedItems!!.indexOf(findedInfo)
+                val previousQuantity = DataFunction.userBasket.orderedItems!!.get(index).second
+                DataFunction.userBasket.orderedItems!!.add(index,selectedItemInfo to previousQuantity+quantity)
+            }else{
+                //새로 추가하는 경우
+                DataFunction.userBasket.orderedItems!!.add(0,selectedItemInfo to quantity)
+            }
+            val intentToOrderList = Intent(this, OrderListActivity::class.java)
+            //수정된 저장방식
+
+
+            //장바구니 json형식으로 저장
+            DataFunction.shopping_basket_ref.set(JsonStringData(Gson().toJson(DataFunction.userBasket))).addOnSuccessListener {
+                Log.d("OrderPageActivityLog",Auth.uid)
+                startActivity(intentToOrderList)
+            }
+
+
+        }
+        /*
         if (newThingOrNot == false){
             binding.buttonAddOrderList.setOnClickListener {
                 val intentToOrderList = Intent(this, OrderListActivity::class.java)
@@ -117,10 +146,15 @@ class OrderPageActivity : AppCompatActivity() {
                 var q = MainActivity.usersShoppingCartForServer.shoppingListArray!!.find{it!!.keys.toString().trim('[',']') == menuName}!!.values.toString().trim('[',']')
                 Log.d("boolTag",MainActivity.usersShoppingCartForServer.shoppingListArray!!.removeAll { it!!.keys.toString().trim('[',']') == menuName }.toString())
                 Log.d("orderTag",q)
+
                 MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName!! to q!!.toInt()+quantity))
                 MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer).addOnSuccessListener {
                     startActivity(intentToOrderList)
                 }
+
+
+
+
 
                 //legacy
                 /*
@@ -161,6 +195,7 @@ class OrderPageActivity : AppCompatActivity() {
                 val intentToOrderList = Intent(this, OrderListActivity::class.java)
 
 
+
                 MainActivity.usersShoppingCartForServer.shoppingListArray!!.add(0, mutableMapOf(menuName!! to quantity))
                 MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer).addOnSuccessListener {
                     var orderListData = OrderListData(menuName, quantity)
@@ -180,7 +215,11 @@ class OrderPageActivity : AppCompatActivity() {
         }
 
 
+         */
+
     }
+
+
 
 
 

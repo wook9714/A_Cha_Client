@@ -40,6 +40,7 @@ object Functions {
         Log.d(TAG,"UIFunction - makeStatusBarTransparent() called")
     }
 
+    /*
     fun updateShoppingList(){
         MainActivity.usersShoppingCartForServer.shoppingListArray?.clear()
         MainActivity.usersShoppingCartList.clear()
@@ -74,6 +75,8 @@ object Functions {
 
         }
     }
+
+     */
 
 
 

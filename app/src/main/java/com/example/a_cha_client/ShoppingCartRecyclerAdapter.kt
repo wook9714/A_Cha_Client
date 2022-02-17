@@ -10,25 +10,36 @@ import androidx.annotation.RequiresApi
 
 
 class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
-    var listData = mutableListOf<OrderListData>()
 
     //TODO //
     //var a=MainActivity.usersShoppingCartByMap.toList().toMutableList().sortBy { it.first }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderListHolder {
         val binding = ItemRecyclerOrderListBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return OrderListHolder(binding,listData)
+        return OrderListHolder(binding)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: OrderListHolder, position: Int) {
-        val orderListData = listData.get(position)
-        holder.setItem(orderListData,position)
+        val orderData = DataFunction.userBasket.orderedItems!!.get(position)
+        val menuInfo = orderData.first
+        val price =  orderData.first.price?:0
+        var quantity = orderData.second
+
+        holder.setItem(orderData)
+
 
         holder.binding.deleteMenuButton.setOnClickListener {
-            val theRemovedItem: OrderListData = listData.get(position)
+            val theRemovedItem = orderData
             //removing item from data base
+            DataFunction.userBasket.orderedItems!!.removeAt(position)
+            DataFunction.saveBasket()
+            OrderListActivity.instance.sumAllPriceOfItems()
+            notifyDataSetChanged()
+
+
+            /*
             MainActivity.usersShoppingCartForServer.shoppingListArray?.removeAt(position)
             Log.d(TAG, "onBindViewHolder: ${MainActivity.usersShoppingCartForServer}")
             MainActivity.shoppingCartRef.set(MainActivity.usersShoppingCartForServer)
@@ -36,15 +47,44 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
             notifyItemRemoved(position) // notify the adapter about the removed item
             OrderListActivity.instance.sumAllPriceOfItems()
             notifyItemRangeChanged(position,itemCount)
+
+             */
+
         }
 
-        var quantity = MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString().replace(Regex("[^0-9]"),"").toInt()
-        Log.d("quantityTag", MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString())
-        var price = MainActivity.loadedMenuData.find{it.name == listData[position].menuName}?.price?:0
 
+        //var quantity = MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString().replace(Regex("[^0-9]"),"").toInt()
+        //Log.d("quantityTag", MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(position)!!.values.toString())
+        //var price = MainActivity.loadedMenuData.find{it.name == listData[position].menuName}?.price?:0
 
+        holder.binding.buttonPlus.setOnClickListener {
+            quantity++
+            holder.binding.menuQuantityText.text = quantity.toString()
+            holder.binding.menuPrice.text = (quantity*price).toString()
+
+            DataFunction.userBasket.orderedItems!![position] = menuInfo to quantity
+            DataFunction.saveBasket()
+            OrderListActivity.instance.sumAllPriceOfItems()
+
+        }
+        holder.binding.buttonMinus.setOnClickListener {
+            if(quantity>1){
+                quantity--
+                holder.binding.menuQuantityText.text = quantity.toString()
+                holder.binding.menuPrice.text = (quantity*price).toString()
+
+                DataFunction.userBasket.orderedItems!![position] = menuInfo to quantity
+                DataFunction.saveBasket()
+
+                OrderListActivity.instance.sumAllPriceOfItems()
+            }
+
+        }
+
+        /*
 
         holder.binding.buttonMinus.setOnClickListener {
+
             if (quantity == 1){
                 holder.binding.menuQuantityText.text = quantity.toString()
                 holder.binding.menuPrice.text = (quantity*price).toString()
@@ -59,6 +99,8 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
                 Log.d(TAG, "update shoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
                 Log.d(TAG, "update shoppingCart ${MainActivity.usersShoppingCartList}")
             }
+
+
 
             OrderListActivity.instance.sumAllPriceOfItems()
         }
@@ -75,25 +117,32 @@ class OrderListRecyclerAdapter : RecyclerView.Adapter<OrderListHolder>() {
                 OrderListActivity.instance.sumAllPriceOfItems()
             }
         }
+
+
+
+         */
+
+
     }
 
+
+
     override fun getItemCount(): Int {
-        return listData.size
+        return DataFunction.userBasket.orderedItems?.size?:0
     }
 }
 
-class OrderListHolder(val binding: ItemRecyclerOrderListBinding,val listData:MutableList<OrderListData>) : RecyclerView.ViewHolder(binding.root){
+class OrderListHolder(val binding: ItemRecyclerOrderListBinding) : RecyclerView.ViewHolder(binding.root){
     @RequiresApi(Build.VERSION_CODES.N)
-    fun setItem(orderListData: OrderListData, position: Int){
+    fun setItem(data:Pair<MenuInfo,Int>){
 
 
-
-        var menuName = orderListData.menuName
+        var menuName = data.first.name
         var quantity = 1
-        quantity = orderListData.quantity.toString().toInt()
+        quantity = data.second
         binding.menuName.text = menuName
         binding.menuQuantityText.text = quantity.toString()
-        var price = MainActivity.loadedMenuData.find{it.name == listData[position].menuName}?.price?:0
+        var price = data.first.price?:0
         binding.menuPrice.text = (quantity * price).toString()
 
     }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="22dp">
+    <TextView
+        android:id="@+id/brandTextView"
+        android:layout_width="match_parent"
+        android:layout_weight="7"
+        android:layout_height="22dp"
+        android:text="브랜드이름"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        />
+    <TextView
+        android:id="@+id/menuDetailText"
+        android:layout_width="match_parent"
+        android:layout_weight="3"
+        android:layout_height="22dp"
+        android:text="- 햄치즈샌드위치 1개, 데리야끼샌드위치 3개.."
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+
+</LinearLayout>

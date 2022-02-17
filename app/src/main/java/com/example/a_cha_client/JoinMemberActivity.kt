@@ -22,13 +22,11 @@ class JoinMemberActivity : AppCompatActivity() {
 
             DataFunction.userInfoData = userInfoData
             DataFunction.db.collection("users").document(Auth.uid).set(userInfoData).addOnSuccessListener {
-                val basket = ShoppingListData(mutableListOf())
-                MainActivity.shoppingCartRef.set(basket).addOnSuccessListener {
-                    val intentGoMain = Intent(this,MainActivity::class.java)
-                    startActivity(intentGoMain)
-                    LoginActivity.instance!!.finish()
-                    finish()
-                }
+
+                val intentGoMain = Intent(this,MainActivity::class.java)
+                startActivity(intentGoMain)
+                LoginActivity.instance!!.finish()
+                finish()
 
             }
 

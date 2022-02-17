@@ -28,7 +28,9 @@ class OrderListActivity : AppCompatActivity() {
         }
 
         var adapter = OrderListRecyclerAdapter()
-        adapter.listData = MainActivity.usersShoppingCartList
+
+
+        //adapter.listData = MainActivity.usersShoppingCartList
         binding.orderListRecyclerView.adapter = adapter
         binding.orderListRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.payButtonWithTotalPrice.setOnClickListener {
@@ -60,10 +62,12 @@ class OrderListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        sumAllPriceOfItems()
         updateShoppingListOnShoppingCartActivity()
     }
 
     fun updateShoppingListOnShoppingCartActivity(){
+        /*
         MainActivity.usersShoppingCartForServer.shoppingListArray?.clear()
         MainActivity.usersShoppingCartList.clear()
         Log.d(TAG, "ShoppingListActivity : cleanShoppingCartByMap ${MainActivity.usersShoppingCartForServer}")
@@ -85,20 +89,25 @@ class OrderListActivity : AppCompatActivity() {
             sumAllPriceOfItems()
 
         }
+
+         */
     }
 
     fun sumAllPriceOfItems(){
         var sum = 0
-        for(i in MainActivity.usersShoppingCartList){
-            val menuPrice = MainActivity.loadedMenuData.find{it.name==i.menuName}?.price?:0
-            Log.d("menuPrice","수량"+i.quantity.toString())
-            Log.d("menuPrice","가격"+menuPrice.toString())
-            Log.d("menuPrice","합:"+sum.toString())
-            sum += i.quantity!! * menuPrice
+        for(i in DataFunction.userBasket.orderedItems!!){
+            val menuPrice = i.first.price
+            val quantity = i.second
+
+            Log.d("sumAllPriceOfItems","price: "+menuPrice.toString())
+            Log.d("sumAllPriceOfItems","quantity: "+quantity.toString())
+            sum += menuPrice!!*quantity
         }
         sumPrice = sum
+        Log.d("sumAllPriceOfItems",sumPrice.toString())
 
-        binding.payButtonWithTotalPrice.text = sum.toString()+"원 결제"
+
+        binding.payButtonWithTotalPrice.text = sumPrice.toString()+"원 결제"
     }
 
 

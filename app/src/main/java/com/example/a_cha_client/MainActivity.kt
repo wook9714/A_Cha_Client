@@ -19,10 +19,12 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlin.collections.HashMap
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.hours
 
+data class JsonTest(var jsonData:String? = "")
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,10 +34,10 @@ class MainActivity : AppCompatActivity() {
         var shoppingCartRef = db.collection("testCollection").document(uid).
         collection("testShoppingCart").document("최근장바구니 with 정렬순서")
          */
-        var shoppingCartRef = DataFunction.shopping_basket_ref
+
         var usersShoppingCartForServer = ShoppingListData()
         var usersShoppingCartList = mutableListOf<OrderListData>()
-        var loadedMenuData = mutableListOf<MenuItemClass>()
+        var loadedMenuData = mutableListOf<MenuInfo>()
     }
 
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
@@ -45,6 +47,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         Functions.makeStatusBarTransparent(window)
+
+        val orderInfoData = MenuItemClass("name",234,"dex","link",3)
+
+        /*
+        val jsonData = Gson().toJson(orderInfoData).toString()
+        JsonTest(jsonData)
+        Log.d("json", jsonData)
+        db.collection("jsonCol").document("jsonDoc").set(JsonTest(jsonData)).addOnSuccessListener {
+            Log.d("json", "성공")
+        }.addOnFailureListener{
+            Log.d("json", it.toString())
+        }
+
+
+
+        db.collection("jsonCol").document("jsonDoc").get().addOnSuccessListener {
+            Log.d("json",it.toObject<JsonTest>().toString())
+            val stringData = it.toObject<JsonTest>()
+            //stringData
+            val data = Gson().fromJson(stringData!!.jsonData,MenuItemClass::class.java)
+            Log.d("json",data.toString())
+        }
+
+         */
 
         binding.testButton.setOnClickListener {
             val intentToTestActivity = Intent(this, TestActivity :: class.java)
@@ -75,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             loadedMenuData.clear()
             Log.d("loadTag","menuDataLoaded")
             for(i in it.documents){
-                var item = i.toObject<MenuItemClass>()
+                var item = i.toObject<MenuInfo>()
                 loadedMenuData.add(item!!)
             }
             loadedMenuData.sortBy { it.priority }
@@ -176,7 +202,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Functions.updateShoppingList()
+        //Functions.updateShoppingList()
     }
 
 

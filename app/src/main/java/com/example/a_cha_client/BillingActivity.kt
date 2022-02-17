@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.a_cha_client.databinding.ActivityBillingBinding
+import com.google.gson.Gson
 
 class BillingActivity : AppCompatActivity() {
     val binding by lazy{ActivityBillingBinding.inflate(layoutInflater)}
@@ -27,20 +28,9 @@ class BillingActivity : AppCompatActivity() {
             orderInfo.detailedLocation = detailedLoc
             orderInfo.userID = Auth.uid
 
-            for(i in MainActivity.usersShoppingCartForServer.shoppingListArray!!.toList()){
-                val orderedMenuInfo =  i!!.toList().get(0)
-                for(j in 1..orderedMenuInfo.second){
-                    orderInfo.orderItems.add(orderedMenuInfo.first)
-                }
+            orderInfo.orderItems = Gson().toJson(DataFunction.userBasket)
 
 
-            }
-
-            for(i in MainActivity.usersShoppingCartForServer.shoppingListArray!!.get(0)!!.toList().groupingBy { it.first }.eachCount()){
-                for(j in 0..i.value){
-                    //orderInfo.orderItems.add(i.key)
-                }
-            }
             DataFunction.order_info_ref.add(orderInfo).addOnSuccessListener {
                 val docId = it.id
                 var orderedList = DataFunction.userInfoData.orderIDs

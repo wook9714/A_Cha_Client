@@ -36,7 +36,32 @@ data class OrderInfo(
     var deliveryTime: Timestamp = Timestamp(0,0),
     var detailedLocation:String="",
     var geoLocation:GeoPoint=GeoPoint(0.0,0.0),
-    var orderItems:MutableList<String> = mutableListOf(),
+    var orderItems:String? = "",
     var userID:String = "",
     var userNeed:String = ""
+)
+
+
+//수정한 데이터 클래스들
+
+//json로드의 근간이 되는 데이터 클래스
+data class JsonStringData(
+    var jsonData:String?=""
+)
+
+data class BillingInfo(
+    var orderedItems:MutableList<MenuInfo>? = mutableListOf()
+)
+
+data class BasketData(
+    var orderedItems:MutableList<Pair<MenuInfo,Int>>? = null
+)
+
+data class MenuInfo(
+    var name:String? = "",
+    var storeName:String? = "",
+    var price:Int? = 0,
+    var description:String? = "",
+    var imageLink:String? = "",
+    var priority:Int? = 0
 )
